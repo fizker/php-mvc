@@ -1,0 +1,7 @@
+#!/bin/sh
+
+git submodule update --init
+
+cd libs/db-patcher
+npm update
+cd ../..

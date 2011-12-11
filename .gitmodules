@@ -1,0 +1,3 @@
+[submodule "libs/db-patcher"]
+	path = libs/db-patcher
+	url = git://finc.dk/db-patcher.git
