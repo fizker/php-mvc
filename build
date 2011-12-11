@@ -1,0 +1,3 @@
+#!/bin/sh
+
+node libs/db-patcher/src/index.js --source patches.xml -u projman -p projman -db projman
