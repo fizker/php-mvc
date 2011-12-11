@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteRule ^$ areas/Controller.php [L]
+	RewriteRule ^([A-Za-z0-9-/_]+)/?$ areas/Controller.php?/$1 [NC,L]
+</IfModule>
