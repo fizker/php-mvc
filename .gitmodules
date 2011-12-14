@@ -1,3 +1,6 @@
 [submodule "libs/db-patcher"]
 	path = libs/db-patcher
 	url = git://finc.dk/db-patcher.git
+[submodule "libs/mustache.php"]
+	path = libs/mustache.php
+	url = git://github.com/bobthecow/mustache.php.git
