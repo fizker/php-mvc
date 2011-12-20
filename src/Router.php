@@ -17,8 +17,15 @@ class Router {
 			? $this->parsedParameters[$name]
 			: null;
 	}
+	
+	public function set($key, $value) {
+		$this->parsedParameters[$key] = $value;
+	}
 
 	public function match($route) {
+		return $this->matches($route);
+	}
+	public function matches($route) {
 		$this->route = $route;
 		$this->createMatcher();
 		return $this->matchRoute();
