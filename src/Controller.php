@@ -7,8 +7,12 @@ include(__DIR__.'/Response.php');
 include(__DIR__.'/../libs/mustache.php/Mustache.php');
 
 class SimpleView {
+	private $value;
+	public function __construct($value = '') {
+		$this->value = $value;
+	}
 	public function render() {
-		return '';
+		return $value;
 	}
 }
 abstract class Controller {
@@ -42,6 +46,34 @@ abstract class Controller {
 		$contents = file_get_contents(DIR_VIEWS."/$templateName.mustache");
 		
 		return new \Mustache($contents, $data);
+	}
+	
+	protected function getPost() {
+		return $_POST;
+	}
+	protected function getPut() {
+		$data = file_get_contents('php://input');
+		parse_str($data, $put);
+		return $put;
+	}
+	protected function getGet() {
+		return $_GET;
+	}
+	
+	protected function is($method) {
+		return $_SERVER['REQUEST_METHOD'] === strtoupper($method);
+	}
+	protected function isGet() {
+		return $this->is('get');
+	}
+	protected function isPost() {
+		return $this->is('post');
+	}
+	protected function isPut() {
+		return $this->is('put');
+	}
+	protected function isDelete() {
+		return $this->is('delete');
 	}
 }
 
