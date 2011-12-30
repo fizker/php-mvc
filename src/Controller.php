@@ -1,10 +1,10 @@
 <?php 
 namespace mvc;
 
-include(__DIR__.'/Router.php');
+require_once(__DIR__.'/Router.php');
 include(__DIR__.'/Request.php');
 include(__DIR__.'/Response.php');
-include(__DIR__.'/../libs/mustache.php/Mustache.php');
+require_once(__DIR__.'/../libs/mustache.php/Mustache.php');
 
 class SimpleView {
 	private $value;
@@ -12,7 +12,7 @@ class SimpleView {
 		$this->value = $value;
 	}
 	public function render() {
-		return $value;
+		return $this->value;
 	}
 }
 abstract class Controller {

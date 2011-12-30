@@ -11,6 +11,27 @@ class Router {
 	public function __construct($url) {
 		$this->url = $url;
 	}
+	
+	public function getUrl() {
+		return $this->url;
+	}
+	
+	public function isStatic($patterns) {
+		if(!$patterns) {
+			return false;
+		}
+		if(!is_array($patterns)) {
+			$patterns = array($patterns);
+		}
+		$result = false;
+		foreach($patterns as $pattern) {
+			$result = !!preg_match($pattern, $this->url);
+			if($result) {
+				return $result;
+			}
+		}
+		return $result;
+	}
 
 	public function get($name) {
 		return isset($this->parsedParameters[$name])
@@ -39,14 +60,14 @@ class Router {
 		foreach($exploded as $expl) {
 			if($expl && $expl[0] === ':') {
 				$parameters[] = substr($expl, 1);
-				$expl = '([^\/]+)';
+				$expl = '([^/]+)';
 			} else {
 				$parameters[] = $expl;
 				$expl = '('.$expl.')';
 			}
 			$matchUrl[] = $expl;
 		}
-		$this->matchUrl = '/^'.implode('\/', $matchUrl).'$/';
+		$this->matchUrl = '{^'.implode('/', $matchUrl).'$}';
 		
 		$this->parameters = $parameters;
 	}
