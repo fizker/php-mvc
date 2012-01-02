@@ -80,7 +80,41 @@ class StaticControllerTest extends PHPUnit_Framework_TestCase {
 			array('a/b.js/c?d')
 		);
 	}
-	
+
+	/**
+	 * @test
+	 * @dataProvider provider_getMimetype_FIleIsJS_CorrectMimetype
+	 */
+	public function getMimetype_FileWithExtension_CorrectMimetype($file, $expected) {
+		$router = new Router($file);
+		$someStaticDir = 'b';
+		$controller = new StaticController($someStaticDir, $router);
+		
+		$result = $controller->getMimetype();
+		
+		$this->assertEquals($expected, $result);
+	}
+	public function provider_getMimetype_FIleIsJS_CorrectMimetype() {
+		return array(
+			array('a.js', 'text/javascript'),
+			array('a.css', 'text/css')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMimetype_MimetypeIsOverridden_CorrectMimetypeIsReturned() {
+		$router = new Router('a.js');
+		$someStaticDir = 'b';
+		$controller = new StaticController($someStaticDir, $router);
+		
+		$controller->setMimetype('c');
+
+		$result = $controller->getMimetype();
+		$this->assertEquals('c', $result);
+	}
+
 	private function getJSMatcherResult($url) {
 		$matcher = StaticController::getJSMatcher();
 		$router = new Router($url);
