@@ -1,20 +1,13 @@
 <?php 
 namespace mvc;
 
+require_once(__DIR__.'/SimpleView.php');
+require_once(__DIR__.'/ComboView.php');
 require_once(__DIR__.'/Router.php');
 include(__DIR__.'/Request.php');
 include(__DIR__.'/Response.php');
 require_once(__DIR__.'/../libs/mustache.php/Mustache.php');
 
-class SimpleView {
-	private $value;
-	public function __construct($value = '') {
-		$this->value = $value;
-	}
-	public function render() {
-		return $this->value;
-	}
-}
 abstract class Controller {
 	private $emptyView;
 	protected $params;
