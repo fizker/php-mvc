@@ -32,6 +32,10 @@ class StaticController extends Controller {
 		return '/\.css(\?.*)?$/i';
 	}
 	
+	public static function getImgMatcher() {
+		return '/\.(png|jpe?g|gif|svg)(\?.*)?$/i';
+	}
+	
 	public function setMimetype($type) {
 		$this->mimetype = $type;
 	}
@@ -45,6 +49,15 @@ class StaticController extends Controller {
 				return 'text/javascript';
 			case 'css':
 				return 'text/css';
+			case 'jpg':
+			case 'jpeg':
+				return 'image/jpeg';
+			case 'png':
+				return 'image/png';
+			case 'gif':
+				return 'image/gif';
+			case 'svg':
+				return 'image/svg+xml';
 			default:
 				return 'application/octet-stream';
 		}

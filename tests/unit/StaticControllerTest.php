@@ -83,9 +83,41 @@ class StaticControllerTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @test
-	 * @dataProvider provider_getMimetype_FIleIsJS_CorrectMimetype
+	 * @dataProvider provider_getImgMatcher_RouteIsImage_Matches
 	 */
-	public function getMimetype_FileWithExtension_CorrectMimetype($file, $expected) {
+	public function getImgMatcher_RouteIsImage_Matches($url = 'png') {
+		$matcher = StaticController::getImgMatcher();
+		$router = new Router($url);
+		
+		$result = $router->isStatic($matcher);
+		
+		$this->assertTrue($result);
+	}
+	public function provider_getImgMatcher_RouteIsImage_Matches() {
+		return array(
+			array('a.png')
+			, array('a.jpg')
+			, array('a.jpeg')
+			, array('a.gif')
+			, array('a.svg')
+			, array('a/b.png')
+			, array('a/b.jpg')
+			, array('a/b.jpeg')
+			, array('a/b.gif')
+			, array('a/b.svg')
+			, array('a/b.png?c')
+			, array('a/b.jpg?c')
+			, array('a/b.jpeg?c')
+			, array('a/b.gif?c')
+			, array('a/b.svg?c')
+		);
+	}
+
+	/**
+	 * @test
+	 * @dataProvider provider_getMimetype_FileIsLoaded_CorrectMimetype
+	 */
+	public function getMimetype_FileIsLoaded_CorrectMimetype($file, $expected) {
 		$router = new Router($file);
 		$someStaticDir = 'b';
 		$controller = new StaticController($someStaticDir, $router);
@@ -94,10 +126,15 @@ class StaticControllerTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals($expected, $result);
 	}
-	public function provider_getMimetype_FIleIsJS_CorrectMimetype() {
+	public function provider_getMimetype_FileIsLoaded_CorrectMimetype() {
 		return array(
-			array('a.js', 'text/javascript'),
-			array('a.css', 'text/css')
+			array('a.js', 'text/javascript')
+			, array('a.css', 'text/css')
+			, array('a.jpg', 'image/jpeg')
+			, array('a.jpeg', 'image/jpeg')
+			, array('a.png', 'image/png')
+			, array('a.gif', 'image/gif')
+			, array('a.svg', 'image/svg+xml')
 		);
 	}
 
