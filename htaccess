@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine on
-	RewriteRule ^$ index.php/? [L]
+	RewriteRule ^$ index.php?/ [L]
 	RewriteRule ^([A-Za-z0-9-/_]+)/?$ index.php?/$1 [NC,L]
 	RewriteRule ^(.*)(gif|jpe?g|svg|png|js|css)$ index.php?/$1$2 [NS,L]
 </IfModule>
