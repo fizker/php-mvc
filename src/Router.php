@@ -3,13 +3,15 @@ namespace mvc;
 
 class Router {
 	private $url;
+	private $unscopedUrl;
 	private $route;
 	private $parameters;
 	private $matchUrl;
 	private $parsedParameters;
 	
 	public function __construct($url) {
-		$this->url = $url;
+		$this->unscopedUrl =
+			$this->url = $url;
 	}
 	
 	public function getUrl() {
@@ -41,6 +43,7 @@ class Router {
 	
 	public function set($key, $value) {
 		$this->parsedParameters[$key] = $value;
+		return $this;
 	}
 
 	public function match($route) {
@@ -48,8 +51,10 @@ class Router {
 	}
 	public function matches($route) {
 		$this->route = $route;
-		$this->createMatcher();
-		return $this->matchRoute();
+		return
+			$this
+			->createMatcher()
+			->matchRoute();
 	}
 	
 	private function createMatcher() {
@@ -68,8 +73,10 @@ class Router {
 			$matchUrl[] = $expl;
 		}
 		$this->matchUrl = '{^'.implode('/', $matchUrl).'$}';
-		
+
 		$this->parameters = $parameters;
+
+		return $this;
 	}
 	
 	private function matchRoute() {
@@ -88,6 +95,29 @@ class Router {
 		$this->parsedParameters = $result;
 		
 		return true;
+	}
+
+	public function scopeUrl($part) {
+		if($this->url === $part) {
+			$this->url = '/';
+			return $this;
+		}
+		if(strpos($this->url, $part) !== 0) {
+			throw new \InvalidArgumentException('The part must match the start of the url');
+		}
+
+		$url = str_replace($part, '', $this->url);
+		if($url[0] !== '/') {
+			throw new \InvalidArgumentException('The scoping must be complete parts');
+		}
+		$this->url = $url;
+
+		return $this;
+	}
+
+	public function unscopeUrl() {
+		$this->url = $this->unscopedUrl;
+		return $this;
 	}
 }
 ?>
