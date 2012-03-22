@@ -15,5 +15,16 @@ class unit_SimpleViewTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals('a', $result);
 	}
+
+	/**
+	 * @test
+	 */
+	public function toString_Always_ReturnsValueGivenInConstructor() {
+		$view = new SimpleView('a');
+
+		$result = ''.$view;
+
+		$this->assertEquals('a', $result);
+	}
 }
 ?>
