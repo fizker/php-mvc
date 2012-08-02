@@ -1,1 +1,10 @@
 node_modules
+
+# The libraries required to run the tests
+libs/php-code-coverage
+libs/php-file-iterator
+libs/php-text-template
+libs/php-timer
+libs/php-token-stream
+libs/phpunit
+libs/phpunit-mock-objects

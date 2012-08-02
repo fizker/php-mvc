@@ -17,6 +17,22 @@ There are three primary parts of the library:
 	which lives up to the view requirement.
 
 
+Installing
+----------
+
+Pull the version from github, and run the `install` script.
+
+
+Running the tests
+-----------------
+
+There are two ways to run the tests:
+1.  Install PHPUnit through PEAR. After that, running `phpunit tests` will
+    execute the tests.
+2.  run the `install-tests` script to install the test-libraries. Then run
+    the tests by executing `runTests.php`.
+
+
 \mvc\Router
 -----------
 
