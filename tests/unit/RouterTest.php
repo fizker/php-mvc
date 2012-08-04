@@ -187,5 +187,62 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertSame($router, $result);
 	}
+
+	/**
+	 * @test
+	 */
+	public function match_baseUrl_returnsTrue() {
+		$router = new Router('/');
+
+		$result = $router->match('/');
+
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function match_paramGiven_paramExtracted() {
+		$router = new Router('/issues/1');
+
+		$result = $router->match('/issues/:id');
+
+		$this->assertTrue($result);
+		$this->assertSame($router->get('id'), '1');
+	}
+
+	/**
+	 * @test
+	 */
+	public function match_twoParmsGiven_bothParamsExtracted() {
+		$router = new Router('/projects/1/issues/2');
+
+		$result = $router->match('/projects/:project/issues/:issue');
+
+		$this->assertTrue($result);
+		$this->assertSame($router->get('project'), '1');
+		$this->assertSame($router->get('issue'), '2');
+	}
+
+	/**
+	 * @test
+	 */
+	public function match_noRouteMatch_returnsFalse() {
+		$router = new Router('/projects/1');
+
+		$result = $router->match('/issues/:id');
+
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function match_nonExistingParam_paramIsNull() {
+		$router = new Router('/issues/1');
+
+		$result = $router->match('/issues/:id');
+
+		$this->assertNull($router->get('abc'));
+	}
 }
-?>
