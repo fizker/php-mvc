@@ -1,7 +1,7 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine on
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule ^(.*)/?$ index.php?/$1 [L,QSA]
+	RewriteRule ^(.*)/?$ index.php?__url=$1&__decoded [L,QSA]
 </IfModule>
 
 DirectorySlash Off

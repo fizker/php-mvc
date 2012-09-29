@@ -71,7 +71,10 @@ abstract class Controller {
 }
 
 function requestController($func) {
-	$url = isset($_SERVER['QUERY_STRING'])?$_SERVER['QUERY_STRING']:'/';
+	$url = isset($_GET['__url'])?$_GET['__url']:'/';
+	if(!isset($_GET['__decoded'])) {
+		$url = urldecode($url);
+	}
 	$router = new Router($url);
 
 	$controller = $func($router);
