@@ -6,7 +6,8 @@ require_once(__DIR__.'/ComboView.php');
 require_once(__DIR__.'/Router.php');
 include(__DIR__.'/Request.php');
 include(__DIR__.'/Response.php');
-require_once(__DIR__.'/../libs/mustache.php/Mustache.php');
+require_once(__DIR__.'/../libs/mustache.php/src/Mustache/Autoloader.php');
+\Mustache_Autoloader::register();
 
 abstract class Controller {
 	private $emptyView;
@@ -38,7 +39,8 @@ abstract class Controller {
 	protected function loadTemplate($templateName, $data = null) {
 		$contents = file_get_contents(DIR_VIEWS."/$templateName.mustache");
 		
-		return new \Mustache($contents, $data);
+		$m = new \Mustache_Engine;
+		return $m->render($contents, $data);
 	}
 	
 	protected function getPost() {
