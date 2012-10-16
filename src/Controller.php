@@ -31,9 +31,9 @@ abstract class Controller {
 	}
 	public abstract function getView();
 	public function render() {
-		$this->response->write($this->getHeaderView()->render());
-		$this->response->write($this->getView()->render());
-		$this->response->write($this->getFooterView()->render());
+		$this->response->write($this->getHeaderView());
+		$this->response->write($this->getView());
+		$this->response->write($this->getFooterView());
 	}
 	
 	protected function loadTemplate($templateName, $data = null) {
