@@ -64,8 +64,15 @@ class Router {
 		$matchUrl = array();
 		foreach($exploded as $expl) {
 			if($expl && $expl[0] === ':') {
-				$parameters[] = substr($expl, 1);
-				$expl = '([^/]+)';
+				$optional = false;
+				if($expl[strlen($expl)-1] === '?') {
+					$optional = true;
+					$parameters[] = substr($expl, 1, -1);
+					$expl = '?([^/]+)?';
+				} else {
+					$parameters[] = substr($expl, 1);
+					$expl = '([^/]+)';
+				}
 			} else {
 				$parameters[] = $expl;
 				$expl = '('.$expl.')';
