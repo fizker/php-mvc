@@ -258,4 +258,30 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('issues', $router->get('type'));
 		$this->assertNull($router->get('id'));
 	}
+
+	/**
+	 * @test
+	 */
+	public function match_optionalParamsGiven_routeStillMatched() {
+		$router = new Router('/issues/1');
+
+		$result = $router->match('/:type/:id?');
+
+		$this->assertTrue($result);
+		$this->assertEquals('issues', $router->get('type'));
+		$this->assertEquals(1, $router->get('id'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function match_multipleOptionalParamsGiven_routeStillMatched() {
+		$router = new Router('/issues');
+
+		$result = $router->match('/:type?/:id?');
+
+		$this->assertTrue($result);
+		$this->assertEquals('issues', $router->get('type'));
+		$this->assertNull($router->get('id'));
+	}
 }

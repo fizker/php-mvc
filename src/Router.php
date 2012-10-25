@@ -68,7 +68,10 @@ class Router {
 				if($expl[strlen($expl)-1] === '?') {
 					$optional = true;
 					$parameters[] = substr($expl, 1, -1);
-					$expl = '?([^/]+)?';
+					$expl = '([^/]+)?';
+					if(sizeof($matchUrl)) {
+						$expl = '?'.$expl;
+					}
 				} else {
 					$parameters[] = substr($expl, 1);
 					$expl = '([^/]+)';
