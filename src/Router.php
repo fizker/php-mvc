@@ -60,12 +60,26 @@ class Router {
 	private function createMatcher() {
 		$parameters = array();
 
+		if(preg_match('_\?.+:[^/?]+(/|$)_', $this->route)) {
+			throw new \InvalidArgumentException('Non-optional parameter given after an optional: '.$this->route);
+		}
+
 		$exploded = explode('/', trim($this->route, '/'));
 		$matchUrl = array();
 		foreach($exploded as $expl) {
 			if($expl && $expl[0] === ':') {
-				$parameters[] = substr($expl, 1);
-				$expl = '([^/]+)';
+				$optional = false;
+				if($expl[strlen($expl)-1] === '?') {
+					$optional = true;
+					$parameters[] = substr($expl, 1, -1);
+					$expl = '([^/]+)?';
+					if(sizeof($matchUrl)) {
+						$expl = '?'.$expl;
+					}
+				} else {
+					$parameters[] = substr($expl, 1);
+					$expl = '([^/]+)';
+				}
 			} else {
 				$parameters[] = $expl;
 				$expl = '('.$expl.')';

@@ -245,4 +245,60 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertNull($router->get('abc'));
 	}
+
+	/**
+	 * @test
+	 */
+	public function match_optionalParamsNotGiven_routeStillMatched() {
+		$router = new Router('/issues');
+
+		$result = $router->match('/:type/:id?');
+
+		$this->assertTrue($result);
+		$this->assertEquals('issues', $router->get('type'));
+		$this->assertNull($router->get('id'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function match_optionalParamsGiven_routeStillMatched() {
+		$router = new Router('/issues/1');
+
+		$result = $router->match('/:type/:id?');
+
+		$this->assertTrue($result);
+		$this->assertEquals('issues', $router->get('type'));
+		$this->assertEquals(1, $router->get('id'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function match_multipleOptionalParamsGiven_routeStillMatched() {
+		$router = new Router('/A');
+
+		$result = $router->match('/:a?/:b?');
+
+		$this->assertTrue($result);
+		$this->assertEquals('A', $router->get('a'));
+		$this->assertNull($router->get('b'));
+	}
+
+	/**
+	 * @test
+	 * @expectedException InvalidArgumentException
+	 * @dataProvider provider_match_nonOptionalGivenAfterOptional_throwsException
+	 */
+	public function match_nonOptionalGivenAfterOptional_throwsException($route) {
+		$router = new Router('/');
+
+		$router->match($route);
+	}
+	public function provider_match_nonOptionalGivenAfterOptional_throwsException() {
+		return array(
+			array('/:a/:b?/:c'),
+			array('/:a?/:b/:c?')
+		);
+	}
 }
